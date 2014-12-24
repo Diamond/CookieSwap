@@ -250,4 +250,26 @@ class GameScene: SKScene {
         runAction(matchSound)
         runAction(SKAction.waitForDuration(0.3), completion: completion)
     }
+    
+    func animateFallingCookie(columns: [[Cookie]], completion: () -> ()) {
+        var longestDuration: NSTimeInterval = 0
+        for array in columns {
+            for (idx, cookie) in enumerate(array) {
+                let newPosition = pointForColumn(cookie.column, row: cookie.row)
+                let delay = 0.05 + 0.15 * NSTimeInterval(idx)
+                let sprite = cookie.sprite!
+                let duration = NSTimeInterval(((sprite.position.y - newPosition.y)/TileHeight) * 0.1)
+                longestDuration = max(longestDuration, duration+delay)
+                let moveAction = SKAction.moveTo(newPosition, duration: duration)
+                moveAction.timingMode = .EaseOut
+                sprite.runAction(
+                    SKAction.sequence([
+                        SKAction.waitForDuration(delay),
+                        SKAction.group([moveAction, fallingCookieSound])
+                    ])
+                )
+            }
+        }
+        runAction(SKAction.waitForDuration(longestDuration), completion: completion)
+    }
 }

@@ -68,7 +68,10 @@ class GameViewController : UIViewController {
     func handleMatches() {
         let chains = level.removeMatches()
         scene.animateMatchedCookies(chains, completion: {
-            self.view.userInteractionEnabled = true
+            let columns = self.level.fillHoles()
+            self.scene.animateFallingCookie(columns, completion: {
+                self.view.userInteractionEnabled = true
+            })
         })
     }
 }
