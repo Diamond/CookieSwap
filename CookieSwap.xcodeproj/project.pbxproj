@@ -33,6 +33,7 @@
 		7CB6F1221A4B59E700D88DD4 /* Ka-Ching.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CB6F11C1A4B59E700D88DD4 /* Ka-Ching.wav */; };
 		7CB6F1231A4B59E700D88DD4 /* Mining by Moonlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CB6F11D1A4B59E700D88DD4 /* Mining by Moonlight.mp3 */; };
 		7CB6F1241A4B59E700D88DD4 /* Scrape.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CB6F11E1A4B59E700D88DD4 /* Scrape.wav */; };
+		7CB6F1261A4B5C4100D88DD4 /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB6F1251A4B5C4100D88DD4 /* Chain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		7CB6F11C1A4B59E700D88DD4 /* Ka-Ching.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Ka-Ching.wav"; sourceTree = "<group>"; };
 		7CB6F11D1A4B59E700D88DD4 /* Mining by Moonlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mining by Moonlight.mp3"; sourceTree = "<group>"; };
 		7CB6F11E1A4B59E700D88DD4 /* Scrape.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Scrape.wav; sourceTree = "<group>"; };
+		7CB6F1251A4B5C4100D88DD4 /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 			children = (
 				7CB6F0D91A4B319E00D88DD4 /* AppDelegate.swift */,
 				7CB6F0DD1A4B319E00D88DD4 /* GameScene.swift */,
+				7CB6F1251A4B5C4100D88DD4 /* Chain.swift */,
 				7CB6F1161A4B4E7200D88DD4 /* Swap.swift */,
 				7CB6F0FF1A4B390700D88DD4 /* Cookie.swift */,
 				7CB6F1011A4B3C1700D88DD4 /* Array2D.swift */,
@@ -303,6 +306,7 @@
 				7CB6F0DE1A4B319E00D88DD4 /* GameScene.swift in Sources */,
 				7CB6F1151A4B46E100D88DD4 /* Extensions.swift in Sources */,
 				7CB6F1061A4B3E6D00D88DD4 /* Level.swift in Sources */,
+				7CB6F1261A4B5C4100D88DD4 /* Chain.swift in Sources */,
 				7CB6F1001A4B390700D88DD4 /* Cookie.swift in Sources */,
 				7CB6F1171A4B4E7200D88DD4 /* Swap.swift in Sources */,
 				7CB6F1131A4B45D800D88DD4 /* Tile.swift in Sources */,
