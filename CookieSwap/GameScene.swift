@@ -272,4 +272,38 @@ class GameScene: SKScene {
         }
         runAction(SKAction.waitForDuration(longestDuration), completion: completion)
     }
+    
+    func animateNewCookies(columns: [[Cookie]], completion: ()->()) {
+        var longestDuration: NSTimeInterval = 0
+        for array in columns {
+            let startRow = array[0].row + 1
+            
+            for (idx, cookie) in enumerate(array) {
+                let sprite = SKSpriteNode(imageNamed: cookie.cookieType.spriteName)
+                sprite.position = pointForColumn(cookie.column, row: startRow)
+                cookiesLayer.addChild(sprite)
+                cookie.sprite = sprite
+                
+                let delay = 0.1 + 0.2 * NSTimeInterval(array.count - idx - 1)
+                let duration = NSTimeInterval(startRow - cookie.row) * 0.1
+                longestDuration = max(longestDuration, duration+delay)
+                
+                let newPosition = pointForColumn(cookie.column, row: cookie.row)
+                let moveAction = SKAction.moveTo(newPosition, duration: duration)
+                moveAction.timingMode = .EaseOut
+                
+                sprite.alpha = 0
+                sprite.runAction(
+                    SKAction.sequence([
+                        SKAction.group([
+                            SKAction.fadeInWithDuration(0.05),
+                            moveAction,
+                            addCookieSound
+                        ])
+                    ])
+                )
+            }
+        }
+        runAction(SKAction.waitForDuration(longestDuration), completion: completion)
+    }
 }
