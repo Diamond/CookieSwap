@@ -16,6 +16,11 @@ class Level {
     private var tiles = Array2D<Tile>(columns: NumColumns, rows: NumRows)
     private var possibleSwaps = Set<Swap>()
     
+    let targetScore: Int!
+    let maximumMoves: Int!
+    
+    private var comboMultiplier = 0
+    
     init(filename: String) {
         if let dictionary = Dictionary<String, AnyObject>.loadJSONFromBundle(filename) {
             if let tilesArray: AnyObject = dictionary["tiles"] {
@@ -27,6 +32,8 @@ class Level {
                         }
                     }
                 }
+                targetScore = (dictionary["targetScore"] as NSNumber).integerValue
+                maximumMoves = (dictionary["moves"] as NSNumber).integerValue
             }
         }
     }
@@ -216,6 +223,9 @@ class Level {
         removeCookies(horizontalChains)
         removeCookies(verticalChains)
         
+        calculateScores(horizontalChains)
+        calculateScores(verticalChains)
+        
         return horizontalChains.unionSet(verticalChains)
     }
     
@@ -275,5 +285,16 @@ class Level {
             }
         }
         return columns
+    }
+    
+    private func calculateScores(chains: Set<Chain>) {
+        for chain in chains {
+            chain.score = 60 * (chain.length - 2) * comboMultiplier
+            ++comboMultiplier
+        }
+    }
+    
+    func resetComboMultiplier() {
+        comboMultiplier = 1
     }
 }

@@ -31,6 +31,9 @@ class GameScene: SKScene {
     let fallingCookieSound = SKAction.playSoundFileNamed("Scrape.wav", waitForCompletion: false)
     let addCookieSound = SKAction.playSoundFileNamed("Drip.wav", waitForCompletion: false)
     
+    let cropLayer = SKCropNode()
+    let maskLayer = SKNode()
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
     }
@@ -41,6 +44,7 @@ class GameScene: SKScene {
         let background = SKSpriteNode(imageNamed: "Background")
         addChild(background)
         addChild(gameLayer)
+        gameLayer.hidden = true
         
         let layerPosition = CGPoint(
             x: -TileWidth * CGFloat(NumColumns) / 2,
@@ -50,11 +54,17 @@ class GameScene: SKScene {
         tilesLayer.position = layerPosition
         gameLayer.addChild(tilesLayer)
         
+        gameLayer.addChild(cropLayer)
+        maskLayer.position = layerPosition
+        cropLayer.maskNode = maskLayer
+        
         cookiesLayer.position = layerPosition
-        gameLayer.addChild(cookiesLayer)
+        cropLayer.addChild(cookiesLayer)
         
         swipeFromColumn = nil
         swipeFromRow = nil
+        
+        SKLabelNode(fontNamed: "GillSans-BoldItalic")
     }
     
     func addSpritesForCookies(cookies: Set<Cookie>) {
@@ -63,6 +73,20 @@ class GameScene: SKScene {
             sprite.position = pointForColumn(cookie.column, row:cookie.row)
             cookiesLayer.addChild(sprite)
             cookie.sprite = sprite
+            
+            sprite.alpha = 0
+            sprite.xScale = 0.5
+            sprite.yScale = 0.5
+            
+            sprite.runAction(
+                SKAction.sequence([
+                    SKAction.waitForDuration(0.25, withRange: 0.5),
+                    SKAction.group([
+                        SKAction.fadeInWithDuration(0.25),
+                        SKAction.scaleTo(1.0, duration: 0.25)
+                    ])
+                ])
+            )
         }
     }
     
@@ -86,8 +110,36 @@ class GameScene: SKScene {
         for row in 0..<NumRows {
             for column in 0..<NumColumns {
                 if let tile = level.tileAtColumn(column, row: row) {
-                    let tileNode = SKSpriteNode(imageNamed: "Tile")
+                    let tileNode = SKSpriteNode(imageNamed: "MaskTile")
                     tileNode.position = pointForColumn(column, row: row)
+                    maskLayer.addChild(tileNode)
+                }
+            }
+        }
+        
+        for row in 0...NumRows {
+            for column in 0...NumColumns {
+                let topLeft     = (column > 0) && (row < NumRows)
+                    && level.tileAtColumn(column - 1, row: row) != nil
+                let bottomLeft  = (column > 0) && (row > 0)
+                    && level.tileAtColumn(column - 1, row: row - 1) != nil
+                let topRight    = (column < NumColumns) && (row < NumRows)
+                    && level.tileAtColumn(column, row: row) != nil
+                let bottomRight = (column < NumColumns) && (row > 0)
+                    && level.tileAtColumn(column, row: row - 1) != nil
+                
+                // The tiles are named from 0 to 15, according to the bitmask that is
+                // made by combining these four values.
+                let value = Int(topLeft) | Int(topRight) << 1 | Int(bottomLeft) << 2 | Int(bottomRight) << 3
+                
+                // Values 0 (no tiles), 6 and 9 (two opposite tiles) are not drawn.
+                if value != 0 && value != 6 && value != 9 {
+                    let name = String(format: "Tile_%ld", value)
+                    let tileNode = SKSpriteNode(imageNamed: name)
+                    var point = pointForColumn(column, row: row)
+                    point.x -= TileWidth/2
+                    point.y -= TileHeight/2
+                    tileNode.position = point
                     tilesLayer.addChild(tileNode)
                 }
             }
@@ -237,6 +289,7 @@ class GameScene: SKScene {
     func animateMatchedCookies(chains: Set<Chain>, completion: ()->()) {
         println("Animating chains: \(chains)")
         for chain in chains {
+            animateScoreForChain(chain)
             for cookie in chain.cookies {
                 if let sprite = cookie.sprite {
                     if sprite.actionForKey("removing") == nil {
@@ -306,4 +359,42 @@ class GameScene: SKScene {
         }
         runAction(SKAction.waitForDuration(longestDuration), completion: completion)
     }
+    
+    func animateScoreForChain(chain: Chain) {
+        let firstSprite = chain.firstCookie().sprite!
+        let lastSprite  = chain.lastCookie().sprite!
+        let centerPosition = CGPoint(
+            x: (firstSprite.position.x + lastSprite.position.x) / 2,
+            y: (firstSprite.position.y + lastSprite.position.y) / 2 - 8
+        )
+        let scoreLabel = SKLabelNode(fontNamed: "GillSans-BoldItalic")
+        scoreLabel.fontSize = 16
+        scoreLabel.text = NSString(format: "%ld", chain.score)
+        scoreLabel.position = centerPosition
+        scoreLabel.zPosition = 300
+        cookiesLayer.addChild(scoreLabel)
+        
+        let moveAction = SKAction.moveBy(CGVector(dx: 0, dy: 3), duration: 0.7)
+        moveAction.timingMode = .EaseOut
+        scoreLabel.runAction(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
+    }
+    
+    func animateGameOver(completion: ()->()) {
+        let action = SKAction.moveBy(CGVector(dx: 0, dy: -size.height), duration: 0.3)
+        action.timingMode = .EaseIn
+        gameLayer.runAction(action, completion: completion)
+    }
+    
+    func animateBeginGame(completion: ()->()) {
+        gameLayer.hidden = false
+        gameLayer.position = CGPoint(x: 0, y: size.height)
+        let action = SKAction.moveBy(CGVector(dx: 0, dy: -size.height), duration: 0.3)
+        action.timingMode = .EaseOut
+        gameLayer.runAction(action, completion: completion)
+    }
+    
+    func removeAllCookies() {
+        cookiesLayer.removeAllChildren()
+    }
+    
 }

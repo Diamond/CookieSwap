@@ -34,6 +34,7 @@
 		7CB6F1231A4B59E700D88DD4 /* Mining by Moonlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CB6F11D1A4B59E700D88DD4 /* Mining by Moonlight.mp3 */; };
 		7CB6F1241A4B59E700D88DD4 /* Scrape.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CB6F11E1A4B59E700D88DD4 /* Scrape.wav */; };
 		7CB6F1261A4B5C4100D88DD4 /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB6F1251A4B5C4100D88DD4 /* Chain.swift */; };
+		CAD803A21A4BDF2000BFDBEA /* Grid.atlas in Resources */ = {isa = PBXBuildFile; fileRef = CAD803A11A4BDF2000BFDBEA /* Grid.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		7CB6F11D1A4B59E700D88DD4 /* Mining by Moonlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mining by Moonlight.mp3"; sourceTree = "<group>"; };
 		7CB6F11E1A4B59E700D88DD4 /* Scrape.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Scrape.wav; sourceTree = "<group>"; };
 		7CB6F1251A4B5C4100D88DD4 /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
+		CAD803A11A4BDF2000BFDBEA /* Grid.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Grid.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				7CB6F0E11A4B319E00D88DD4 /* Main.storyboard */,
 				7CB6F0E41A4B319E00D88DD4 /* Images.xcassets */,
 				7CB6F0FD1A4B322E00D88DD4 /* Sprites.atlas */,
+				CAD803A11A4BDF2000BFDBEA /* Grid.atlas */,
 				7CB6F0E61A4B319E00D88DD4 /* LaunchScreen.xib */,
 				7CB6F1181A4B59E700D88DD4 /* Sounds */,
 				7CB6F1071A4B459B00D88DD4 /* Levels */,
@@ -274,6 +277,7 @@
 				7CB6F0E81A4B319E00D88DD4 /* LaunchScreen.xib in Resources */,
 				7CB6F1201A4B59E700D88DD4 /* Drip.wav in Resources */,
 				7CB6F1111A4B459B00D88DD4 /* Level_4.json in Resources */,
+				CAD803A21A4BDF2000BFDBEA /* Grid.atlas in Resources */,
 				7CB6F1211A4B59E700D88DD4 /* Error.wav in Resources */,
 				7CB6F10F1A4B459B00D88DD4 /* Level_2.json in Resources */,
 				7CB6F1241A4B59E700D88DD4 /* Scrape.wav in Resources */,
@@ -505,6 +509,7 @@
 				7CB6F0F91A4B319E00D88DD4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7CB6F0FA1A4B319E00D88DD4 /* Build configuration list for PBXNativeTarget "CookieSwapTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +518,7 @@
 				7CB6F0FC1A4B319E00D88DD4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
